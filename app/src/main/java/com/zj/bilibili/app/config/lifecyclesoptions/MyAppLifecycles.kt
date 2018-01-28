@@ -10,7 +10,7 @@ import com.zj.bilibili.BuildConfig
  * Created by zhengjiong
  * date: 2018/1/28 17:59
  */
-class MyAppLifeCycles : AppLifecycles {
+class MyAppLifecycles : AppLifecycles {
     override fun attachBaseContext(base: Context?) {
 
 

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zj.bilibili">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="com.jess.arms.base.BaseApplication"
         android:allowBackup="true"
@@ -18,6 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvp.ui.activity.MainActivity"/>
+
+        <!-- arms配置 -->
+        <meta-data
+            android:name="com.zj.bilibili.app.GlobalConfiguration"
+            android:value="ConfigModule"/>
     </application>
 
 </manifest>

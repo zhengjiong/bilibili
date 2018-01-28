@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="310dp"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="start"
+    android:orientation="vertical">
+
+    <android.support.design.widget.NavigationView
+        app:headerLayout="@layout/drawer_header"
+        app:itemBackground="@color/nav_menu_bg"
+        app:menu="@menu/drawer_menu"
+        app:elevation="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none"
+        android:fadingEdge="none" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/nav_bottom_line"
+        android:visibility="visible"/>
+
+    <include layout="@layout/drawer_bottom"/>
+</LinearLayout>
+</merge>

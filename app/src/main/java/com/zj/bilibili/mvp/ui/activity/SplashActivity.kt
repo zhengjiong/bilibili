@@ -25,9 +25,9 @@ class SplashActivity : BaseActivity<IPresenter>() {
     override fun initData(savedInstanceState: Bundle?) {
         Observable.timer(1000, TimeUnit.MILLISECONDS)
                 .compose(RxLifecycleUtils.bindToLifecycle(this))
-                .subscribe(Consumer {
+                .subscribe{
                     ARouter.getInstance().build("/app/main").navigation(this)
-                })
+                }
     }
 
     override fun setupActivityComponent(appComponent: AppComponent?) {

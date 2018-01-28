@@ -6,14 +6,14 @@ import android.support.v4.app.FragmentManager
 import com.jess.arms.base.delegate.AppLifecycles
 import com.jess.arms.di.module.GlobalConfigModule
 import com.jess.arms.integration.ConfigModule
-import com.jess.arms.utils.DataHelper
-import java.io.File
+import com.zj.bilibili.app.config.lifecyclesoptions.MyActivityLifecycle
+import com.zj.bilibili.app.config.lifecyclesoptions.MyAppLifecycles
 
 /**
  * Created by zhengjiong
  * date: 2018/1/28 17:57
  */
-class GlobalConfiguration() : ConfigModule{
+class GlobalConfiguration() : ConfigModule {
     override fun injectFragmentLifecycle(context: Context?, lifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks>?) {
         //向Fragment的生命周期中注入一些自定义逻辑
     }
@@ -34,10 +34,12 @@ class GlobalConfiguration() : ConfigModule{
 
     override fun injectAppLifecycle(context: Context?, lifecycles: MutableList<AppLifecycles>?) {
         //向Application的生命周期中注入一些自定义逻辑
+        lifecycles!!.add(MyAppLifecycles())
     }
 
     override fun injectActivityLifecycle(context: Context?, lifecycles: MutableList<Application.ActivityLifecycleCallbacks>?) {
         //向Activity的生命周期中注入一些自定义逻辑
+        lifecycles!!.add(MyActivityLifecycle())
     }
 
 }
