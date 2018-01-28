@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    arguments {
+        arg("moduleName", project.getName())
+    }
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -15,19 +23,69 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            //这两个变量是自定义的,自己也可以自定义字段,他会默认配置到BuildConfig中,app中可以根据这些字段执行一些操作
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            minifyEnabled false
+        }
+
         release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    //implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    implementation 'me.jessyan:arms:2.3.1'
+
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["recyclerview-v7"]
+    implementation rootProject.ext.dependencies["BottomNavigationViewEx"]
+    implementation rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["cardview-v7"]
+    implementation rootProject.ext.dependencies["butterknife"]
+    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation rootProject.ext.dependencies["rxandroid2"]
+    implementation rootProject.ext.dependencies["rxpermissions2"]
+
+    // view
+    implementation rootProject.ext.dependencies["boxing"]
+    implementation rootProject.ext.dependencies["boxing-impl"]
+    implementation rootProject.ext.dependencies["SmartRefreshLayout"]
+    implementation rootProject.ext.dependencies["SmartRefreshHeader"]
+    implementation rootProject.ext.dependencies["BaseRecyclerViewAdapter"]
+    implementation rootProject.ext.dependencies["progressmanager"]
+    implementation rootProject.ext.dependencies["retrofit-url-manager"]
+    implementation rootProject.ext.dependencies["lifecyclemodel"]
+
+    // tool
+    implementation rootProject.ext.dependencies["arouter"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
+    implementation rootProject.ext.dependencies["fragmentation-core"]
+
+
+
+    //annotationProcessor 是 AndroidStudio 自带并用来替换 APT
+    kapt (rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    kapt rootProject.ext.dependencies["dagger2-compiler"]
+    implementation rootProject.ext.dependencies["paginate"]
 }
