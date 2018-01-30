@@ -1,6 +1,7 @@
-package com.zj.bilibili.app.base;
+package com.zj.bilibili.mvp.ui.base;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
@@ -18,10 +19,10 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
 /**
  * 基于Fragmentation框架，作为一个有多个Fragmentation的Activity基类（该类只为构建Fragmentation框架的Activity基类）
  *
- * Created by zhengjiong
  * Date: 2018/1/28 17:39
+ * @author zhengjiong
  */
-public abstract class MySupportActivity<P extends IPresenter> extends BaseActivity<P> implements ISupportActivity {
+public abstract class BaseSupportActivity<P extends IPresenter> extends BaseActivity<P> implements ISupportActivity {
 
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
 
@@ -41,8 +42,8 @@ public abstract class MySupportActivity<P extends IPresenter> extends BaseActivi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -115,9 +116,22 @@ public abstract class MySupportActivity<P extends IPresenter> extends BaseActivi
         return mDelegate.onCreateFragmentAnimator();
     }
 
+    /**
+     * Causes the Runnable r to be added to the action queue.
+     * <p>
+     * The runnable will be run after all the previous action has been run.
+     * <p>
+     * 前面的事务全部执行后 执行该Action
+     */
+    @Override
+    public void post(Runnable runnable) {
+        mDelegate.post(runnable);
+    }
+
     /****************************************以下为可选方法(Optional methods)******************************************************/
 
     // 选择性拓展其他方法
+
     public void loadRootFragment(int containerId, @NonNull ISupportFragment toFragment) {
         mDelegate.loadRootFragment(containerId, toFragment);
     }
@@ -172,5 +186,19 @@ public abstract class MySupportActivity<P extends IPresenter> extends BaseActivi
      */
     public <T extends ISupportFragment> T findFragment(Class<T> fragmentClass) {
         return SupportHelper.findFragment(getSupportFragmentManager(), fragmentClass);
+    }
+
+    /**
+     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
+     */
+    public void loadMultipleRootFragment(int containerId, int showPosition, ISupportFragment... toFragments) {
+        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
+    }
+
+    /**
+     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
+     */
+    public void showHideFragment(ISupportFragment showFragment, ISupportFragment hideFragment) {
+        mDelegate.showHideFragment(showFragment, hideFragment);
     }
 }

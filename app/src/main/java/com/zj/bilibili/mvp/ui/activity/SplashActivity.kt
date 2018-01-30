@@ -27,6 +27,7 @@ class SplashActivity : BaseActivity<IPresenter>() {
                 .compose(RxLifecycleUtils.bindToLifecycle(this))
                 .subscribe{
                     ARouter.getInstance().build("/app/main").navigation(this)
+                    finish()
                 }
     }
 

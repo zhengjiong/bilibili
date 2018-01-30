@@ -6,14 +6,10 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-kapt {
-    arguments {
-        arg("moduleName", project.getName())
-    }
-}
-
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
     defaultConfig {
         applicationId "com.zj.bilibili"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
@@ -21,15 +17,15 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
     buildTypes {
         debug {
-            //这两个变量是自定义的,自己也可以自定义字段,他会默认配置到BuildConfig中,app中可以根据这些字段执行一些操作
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "true"
             minifyEnabled false
         }
-
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
@@ -38,20 +34,32 @@ android {
         }
     }
 
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
+    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+kapt {
+    arguments {
+        arg("moduleName", project.getName())
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    //implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.android.support:multidex:1.0.2'
 
     implementation 'me.jessyan:arms:2.3.1'
 
@@ -61,7 +69,8 @@ dependencies {
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["cardview-v7"]
     implementation rootProject.ext.dependencies["butterknife"]
-    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation rootProject.ext.dependencies["yokeywordeventbus"]
+    implementation rootProject.ext.dependencies["eventbus"]
     implementation rootProject.ext.dependencies["rxandroid2"]
     implementation rootProject.ext.dependencies["rxpermissions2"]
 
@@ -81,11 +90,19 @@ dependencies {
     implementation rootProject.ext.dependencies["fragmentation-core"]
 
 
-
     //annotationProcessor 是 AndroidStudio 自带并用来替换 APT
+
+    //butterknife
     kapt (rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'
     }
+
+    //dagger2
     kapt rootProject.ext.dependencies["dagger2-compiler"]
+    // dagger2必须依赖jsr250 annotation
+    provided rootProject.ext.dependencies["javax.annotation"]
     implementation rootProject.ext.dependencies["paginate"]
+
+
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 }

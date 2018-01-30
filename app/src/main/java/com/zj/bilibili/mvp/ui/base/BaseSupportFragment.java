@@ -1,6 +1,7 @@
-package com.zj.bilibili.app.base;
+package com.zj.bilibili.mvp.ui.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -19,10 +20,10 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
 /**
  * 基于Fragmentation框架，作为Fragment基类（该类只为构建Fragmentation框架的Fragment基类）
  *
- * Created by zhengjiong
  * Date: 2018/1/28 17:39
+ * @author zhengjiong
  */
-public abstract class MySupportFragment<P extends IPresenter> extends BaseFragment<P> implements ISupportFragment {
+public abstract class BaseSupportFragment<P extends IPresenter> extends BaseFragment<P> implements ISupportFragment {
     final SupportFragmentDelegate mDelegate = new SupportFragmentDelegate(this);
     protected FragmentActivity _mActivity;
 
@@ -107,16 +108,30 @@ public abstract class MySupportFragment<P extends IPresenter> extends BaseFragme
     }
 
     /**
-     * If you want to call the start()/pop()/showHideFragment() on the onCreateXX/onActivityCreated,
-     * call this method to deliver the transaction to the queue.
+     * Causes the Runnable r to be added to the action queue.
      * <p>
-     * 在onCreate/onCreateView/onActivityCreated中使用 start()/pop()/showHideFragment(),请使用该方法把你的任务入队
+     * The runnable will be run after all the previous action has been run.
+     * <p>
+     * 前面的事务全部执行后 执行该Action
      *
-     * @param runnable start() , pop() or showHideFragment()
+     * @deprecated Use {@link #post(Runnable)} instead.
      */
+    @Deprecated
     @Override
     public void enqueueAction(Runnable runnable) {
         mDelegate.enqueueAction(runnable);
+    }
+
+    /**
+     * Causes the Runnable r to be added to the action queue.
+     * <p>
+     * The runnable will be run after all the previous action has been run.
+     * <p>
+     * 前面的事务全部执行后 执行该Action
+     */
+    @Override
+    public void post(Runnable runnable) {
+        mDelegate.post(runnable);
     }
 
     /**
@@ -285,32 +300,6 @@ public abstract class MySupportFragment<P extends IPresenter> extends BaseFragme
         mDelegate.loadRootFragment(containerId, toFragment, addToBackStack, allowAnim);
     }
 
-    /**
-     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
-     */
-    public void loadMultipleRootFragment(int containerId, int showPosition, ISupportFragment... toFragments) {
-        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
-    }
-
-    /**
-     * show一个Fragment,hide其他同栈所有Fragment
-     * 使用该方法时，要确保同级栈内无多余的Fragment,(只有通过loadMultipleRootFragment()载入的Fragment)
-     * <p>
-     * 建议使用更明确的{@link #showHideFragment(ISupportFragment, ISupportFragment)}
-     *
-     * @param showFragment 需要show的Fragment
-     */
-    public void showHideFragment(ISupportFragment showFragment) {
-        mDelegate.showHideFragment(showFragment);
-    }
-
-    /**
-     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
-     */
-    public void showHideFragment(ISupportFragment showFragment, ISupportFragment hideFragment) {
-        mDelegate.showHideFragment(showFragment, hideFragment);
-    }
-
     public void start(ISupportFragment toFragment) {
         mDelegate.start(toFragment);
     }
@@ -330,7 +319,7 @@ public abstract class MySupportFragment<P extends IPresenter> extends BaseFragme
     }
 
     /**
-     * Launch a fragment while poping self.
+     * Start the target Fragment and pop itself
      */
     public void startWithPop(ISupportFragment toFragment) {
         mDelegate.startWithPop(toFragment);
@@ -355,13 +344,6 @@ public abstract class MySupportFragment<P extends IPresenter> extends BaseFragme
      */
     public void popTo(Class<?> targetFragmentClass, boolean includeTargetFragment) {
         mDelegate.popTo(targetFragmentClass, includeTargetFragment);
-    }
-
-    /**
-     * Pop the child fragment.
-     */
-    public void popChild() {
-        mDelegate.popChild();
     }
 
     /**
