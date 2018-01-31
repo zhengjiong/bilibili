@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView"
         app:headerLayout="@layout/drawer_header"
         app:itemBackground="@color/nav_menu_bg"
         app:menu="@menu/drawer_menu"

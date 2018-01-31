@@ -1,4 +1,4 @@
-package com.zj.bilibili.mvp.ui.fragment.main
+package com.zj.bilibili.mvp.ui.fragment.leftdrawer
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,37 +12,32 @@ import com.zj.bilibili.mvp.ui.base.BaseSupportFragment
 /**
  *
  * Copyright:Copyright(c) 2018
- * CreateTime:18/1/30$  16:17$
+ * Company: 上加下信息技术成都有限公司
+ * CreateTime:18/1/31$  09:58$
  * @author 郑炯
  * @version 1.0
  */
-class MainHomeFragment : BaseSupportFragment<IPresenter>() {
+class HistoryFragment : BaseSupportFragment<IPresenter>() {
 
     companion object {
         @JvmStatic
-        fun newInstance(): MainHomeFragment {
-            return MainHomeFragment()
+        fun newInstance(): HistoryFragment {
+            return HistoryFragment()
         }
     }
 
-    override fun setData(data: Any?) {
-
-    }
-
     override fun initData(savedInstanceState: Bundle?) {
-    }
 
-    override fun post(runnable: Runnable?) {
-    }
-
-    override fun initView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // 要让Fragment中的onCreateOptionsMenu()被回调，必须调用setHasOptionsMenu(true);
-        setHasOptionsMenu(true)
-
-        return inflater!!.inflate(R.layout.fragment_main_home, container, false)
     }
 
     override fun setupFragmentComponent(appComponent: AppComponent?) {
+    }
+
+    override fun initView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater!!.inflate(R.layout.fragment_history, container, false)
+    }
+
+    override fun setData(data: Any?) {
     }
 
 }
