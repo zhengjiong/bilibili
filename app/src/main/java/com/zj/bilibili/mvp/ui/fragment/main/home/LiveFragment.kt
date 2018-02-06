@@ -8,6 +8,7 @@ import butterknife.ButterKnife
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.mvp.IPresenter
 import com.zj.bilibili.R
+import com.zj.bilibili.mvp.presenter.LivePresenter
 import com.zj.bilibili.mvp.ui.base.BaseSupportFragment
 
 /**
@@ -18,7 +19,7 @@ import com.zj.bilibili.mvp.ui.base.BaseSupportFragment
  * @version 1.0
  */
 
-class LiveFragment : BaseSupportFragment<IPresenter>() {
+class LiveFragment : BaseSupportFragment<LivePresenter>() {
 
     companion object {
 
