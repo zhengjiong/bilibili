@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.flyco.tablayout.CommonTabLayout
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.mvp.IPresenter
@@ -20,7 +22,10 @@ import me.yokeyword.fragmentation.ISupportFragment
  * @version 1.0
  */
 class MainFragment : BaseSupportFragment<IPresenter>() {
-    private lateinit var tabLayout: CommonTabLayout
+
+    @BindView(R.id.tab_layout)
+    lateinit var tabLayout: CommonTabLayout
+
     private val mFragments = arrayOfNulls<ISupportFragment>(4);
 
     companion object {
@@ -42,7 +47,7 @@ class MainFragment : BaseSupportFragment<IPresenter>() {
 
     override fun initView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(R.layout.fragment_main, container, false)
-        tabLayout = view.findViewById(R.id.tab_layout)
+        ButterKnife.bind(this, view)
         return view
     }
 
@@ -60,7 +65,11 @@ class MainFragment : BaseSupportFragment<IPresenter>() {
             ))
             setOnTabSelectListener(object : com.flyco.tablayout.listener.OnTabSelectListener {
                 override fun onTabSelect(position: Int) {
-
+                    /**
+                     * show一个Fragment，hide一个Fragment；主要用于类似微信主页那种 切换tab的情况
+                     * 同级Fragment场景下的切换
+                     */
+                    showHideFragment(mFragments[position])
                 }
 
                 override fun onTabReselect(position: Int) {

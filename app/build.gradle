@@ -46,6 +46,7 @@ android {
     }
 }
 
+/*arouter*/
 kapt {
     arguments {
         arg("moduleName", project.getName())
@@ -83,6 +84,7 @@ dependencies {
     implementation rootProject.ext.dependencies["progressmanager"]
     implementation rootProject.ext.dependencies["retrofit-url-manager"]
     implementation rootProject.ext.dependencies["lifecyclemodel"]
+    implementation rootProject.ext.dependencies["agentweb"]
 
     // tool
     implementation rootProject.ext.dependencies["arouter"]
@@ -91,7 +93,6 @@ dependencies {
 
 
     //annotationProcessor 是 AndroidStudio 自带并用来替换 APT
-
     //butterknife
     kapt (rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'

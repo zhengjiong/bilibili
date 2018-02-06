@@ -1,7 +1,6 @@
 package com.zj.bilibili.mvp.ui.activity
 
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import android.widget.Toast
@@ -26,7 +25,7 @@ import me.yokeyword.fragmentation.ISupportFragment
  */
 @Route(path = "/app/main")
 class MainActivity : BaseSupportActivity<IPresenter>() {
-    var preBackPressTime = 0L
+    private var preBackPressTime = 0L
 
     override fun post(runnable: Runnable?) {
     }
